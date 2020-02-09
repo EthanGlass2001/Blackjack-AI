@@ -128,8 +128,8 @@ class Blackjack:
 
     def checkTable(self, playerinfo, dealerinfo, solution):
 
-        if playerinfo < 21:
-            for i in range(5, 21):
+        if playerinfo < 22:
+            for i in range(2, 21):
                     for j in range(2, 14):
                         if i == playerinfo:
                             if dealerinfo == 'J':
@@ -141,7 +141,7 @@ class Blackjack:
                             if dealerinfo == 'A':
                                 dealerinfo = 14
                             if j == dealerinfo:
-                                print(solution[j - 2][i - 5])
+                                print(solution[i - 2][j - 2])
         else:
             print('BUST')
 
@@ -149,9 +149,9 @@ class Blackjack:
     def randomTable(self, randomtable):
         for i in range(0, 17 - 1):
             for j in range(0, 13 - 1):
-                randomtable[j - 2][i - 5] = random.randint(0, 2)
-        print(randomtable)
-        print(len(randomtable))
+                randomtable[j - 2][i - 2] = random.randint(0, 2)
+        #print(randomtable)
+        #print(len(randomtable))
 
 
 
@@ -175,9 +175,30 @@ class Blackjack:
             # Game will crash if played too many times.
             # Prints extra "Dealer shows... statements when you win sometimes.
             # When you use the split option, it causes too many cards to be drawn
-            
-
 print("Welcome to the Hacklahoma 2020 Blackjack table!")
+
+
+
+solution =         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1 ], \
+                   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ], \
+                   [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
 
 
 myGame = Blackjack()
@@ -259,8 +280,11 @@ while leftCasino == False:
             
             handComplete = True
             break
-        
-        
+
+        playerinfo = myGame.calculateHand(playerHand)
+        dealerinfo = dealerHand[0][0]
+        myGame.checkTable(playerinfo, dealerinfo, solution)
+
         if (playerHand[0][0] == playerHand[1][0]):
             player_choice = input("What would you like to do? Your options are:\nSplit\nHit\nStand\nDouble\nSurrender\n")
         elif (len(playerHand) == 2):
@@ -361,25 +385,12 @@ while leftCasino == False:
 
 
 #16x17
-solution = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
-                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
-                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], \
-                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
-                   [1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1 ], \
-                   [2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1 ], \
-                   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 ], \
-                   [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
-                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
-                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
-                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
-                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
-                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
 
-randomtable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+
+randomtable =       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], \
                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
@@ -397,8 +408,7 @@ randomtable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
 
-playerinfo = myGame.calculateHand(playerHand)
-dealerinfo = dealerHand[0][0]
-myGame.checkTable(playerinfo, dealerinfo, solution)
+
+
 myGame.randomTable(randomtable)
 
