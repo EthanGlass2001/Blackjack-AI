@@ -124,6 +124,48 @@ class Blackjack:
             #Option 3, dealer hits.
             else:
                 self.hit(dealerHand)
+
+
+    def checkTable(self, playerinfo, dealerinfo, solution):
+
+        if playerinfo < 21:
+            for i in range(5, 21):
+                    for j in range(2, 14):
+                        if i == playerinfo:
+                            if dealerinfo == 'J':
+                                dealerinfo = 11
+                            if dealerinfo == 'Q':
+                                dealerinfo = 12
+                            if dealerinfo == 'K':
+                                dealerinfo = 13
+                            if dealerinfo == 'A':
+                                dealerinfo = 14
+                            if j == dealerinfo:
+                                print(solution[j - 2][i - 5])
+        else:
+            print('BUST')
+
+
+    def randomTable(self, randomtable):
+        for i in range(0, 17 - 1):
+            for j in range(0, 13 - 1):
+                randomtable[j - 2][i - 5] = random.randint(0, 2)
+        print(randomtable)
+        print(len(randomtable))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 
 ###################################################################################
 
@@ -316,3 +358,47 @@ while leftCasino == False:
             
         else:
             print("Sorry, you didn't input a valid string")
+
+
+#16x17
+solution = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1 ], \
+                   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 ], \
+                   [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+
+randomtable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+
+playerinfo = myGame.calculateHand(playerHand)
+dealerinfo = dealerHand[0][0]
+myGame.checkTable(playerinfo, dealerinfo, solution)
+myGame.randomTable(randomtable)
+
