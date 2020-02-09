@@ -126,26 +126,50 @@ class Blackjack:
             else:
                 self.hit(dealerHand)
                 
+    def checkTable(self, playerinfo, dealerinfo, decisionTable):
 
+        if playerinfo < 22:
+              for i in range(2, 21):
+                  for j in range(2, 14):
+                      if i == playerinfo:
+                          if dealerinfo == 'J':
+                              dealerinfo = 11
+                          if dealerinfo == 'Q':
+                              dealerinfo = 12
+                          if dealerinfo == 'K':
+                              dealerinfo = 13
+                          if dealerinfo == 'A':
+                              dealerinfo = 14
+                          if j == dealerinfo:
+                              return decisionTable[i - 2][j - 2]
+        else:
+            return 0
 
+    def randomTable(self, randomTable):
+        for i in range(0, 16):
+            for j in range(0, 12):
+                randomTable[j][i] = random.randint(0, 2)
+        return randomTable
 
 
 ###################################################################################
     def playBlackjack(self, inputDecisionArray):
         
-        loopNum = 1000
+        loopNum = 10
         leftCasino = False
         handComplete = False
-        winPercent = 100.00
+        winPercent = 30.00
         numGames = 0
         numWins = 0
         
         while leftCasino == False:
+            print(loopNum)
+            loopNum = loopNum - 1
             if (loopNum == 0):
                 leftCasino = True
                 return winPercent
             
-            if(len(self.cardDeck) < 40):
+            if(len(self.cardDeck) < 100):
                 self.reshuffle()
             
             handComplete = False
@@ -158,32 +182,39 @@ class Blackjack:
                         if(self.resolve(playerHand, dealerHand) == 1): #Player wins
                             numWins = numWins + 1
                             numGames = numGames + 1
-                            winPercent = numWins / numGames
-                            loopNum = loopNum - 1
+                            winPercent = float(numWins / numGames)
+                            handComplete = True
                             break
                     
                     elif(self.calculateHand(dealerHand) == 21): #Dealer also got a blackjack. Push. Don't increase numGames (neutral outcome)
-                        loopNum = loopNum - 1
+                        handComplete = True
                         break
-                else:
-                    if(self.resolve(playerHand, dealerHand) == 1): #Player got a 21 and dealer did not. Player wins.
-                        numWins = numWins + 1
-                        numGames = numGames + 1
-                        winPercent = numWins / numGames
-                        loopNum = loopNum - 1
-                        break
-                    else: #Both got 21. Push. No change to W/L or numGames
-                        loopNum = loopNum - 1
-                        break
+                    else:
+                        if(self.resolve(playerHand, dealerHand) == 1): #Player got a 21 and dealer did not. Player wins.
+                            numWins = numWins + 1
+                            numGames = numGames + 1
+                            winPercent = float(numWins / numGames)
+                            handComplete = True
+                            break
+                        else: #Both got 21. Push. No change to W/L or numGames
+                            handComplete = True
+                            break
             
                 #The decision. We choose based on the given inputDecisionArray.
                 #Decision options are Hit, Stand, Double.
                 
-                #This depends on the checkTable method written by Ethan! Don't have it in this file yet.
-            
-                player_choice = input(self.checkTable(self.calculateHand(playerHand), dealerHand[0][0], inputDecisionArray))
+                #This depends on the checkTable method written by Ethan
+                
+                
+                player_choice = int(input(self.checkTable(self.calculateHand(playerHand), dealerHand[0][0], inputDecisionArray)))
                 
                 # 0 is stand, 1 hit, 2 double. double is worth 2 wins (but only 1 game)
+                
+                if (player_choice == None):
+                    print("Error! The player was given a choice when they had a hand of 22 or more")
+                    handComplete = True
+                    
+                    
                 
                 if (player_choice == 1): # decision 1 is HIT
                     playerHand = self.hit(playerHand)
@@ -191,8 +222,9 @@ class Blackjack:
                         continue
                     else: #You bust, you lose this game.
                         numGames = numGames + 1
-                        winPercent = numWins / numGames
+                        winPercent = float(numWins / numGames)
                         handComplete = True
+                        break
                 
                 if (player_choice == 0): # decision 0 is STAND
                     playerHand = self.stand(playerHand)
@@ -202,14 +234,17 @@ class Blackjack:
                         numGames = numGames + 1
                         winPercent = numWins / numGames
                         handComplete = True
+                        break
             
                     elif(myGame.resolve(playerHand, dealerHand) == 1): #You won
                         numWins = numWins + 1
                         numGames = numGames + 1
                         winPercent = numWins / numGames
                         handComplete = True
+                        break
                     else: #You push, no change to games or winLoss
                         handComplete = True
+                        break
                     
                 if (player_choice == 2): #Decision is DOUBLE. GAME WORTH 2x IF YOU WIN!
                     playerHand = self.hit(playerHand)
@@ -218,6 +253,7 @@ class Blackjack:
                         numGames = numGames + 1
                         winPercent = numWins / numGames
                         handComplete = True
+                        break
                     
                     else:
                 
@@ -225,18 +261,20 @@ class Blackjack:
                             numGames = numGames + 1
                             winPercent = numWins / numGames
                             handComplete = True
+                            break
                             
                         elif(myGame.resolve(playerHand, dealerHand) == 1): #You win DOUBLE!
                             numWins = numWins + 2
                             numGames = numGames + 1
                             winPercent = numWins / numGames
                             handComplete = True
+                            break
                             
                         else: #Push, no change. 
                             handComplete = True
+                            break
                     
             
-            loopNum = loopNum - 1
             
 ###################################################################################
 
@@ -244,7 +282,7 @@ class Blackjack:
 
 #MAIN METHOD BEGINS HERE
             # Known bugs:
-            # Game will crash if played too many times. Need to implement reshuffle.
+            # Somehow 
             # When you use the split option, it causes too many cards to be drawn
             
 #OK, the main changes we need to make are we need to accept 0,1,or 2 as automated input.
@@ -254,4 +292,39 @@ class Blackjack:
             
 
 print("Welcome to the AI version of the Hacklahoma 2020 Blackjack table!")
+
+optimalSolution =  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1 ], \
+                   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ], \
+                   [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ], \
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+
+
+
 myGame = Blackjack()
+
+myWinPercent = myGame.playBlackjack(optimalSolution)
+print(myWinPercent)
+
+
+#neighborhood = []
+
+#for i in range(0,20):
+#    for j in range (0,20):
+#        for k in range (0,13):
+#            neighborhood[i][j][k] = 
